@@ -1,24 +1,26 @@
-import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export default function CategoryList(){
+  const [categories, setCategories] = useState<any[]>([])
+  const [chosenCategoryId, setChosen] = useState("")
+
+  useEffect(() => {
+    fetch("http://localhost:7070/api/categories")
+    .then(response => response.json())
+    .then(data => setCategories(data))
+  }, [])
 
   return(
     <ul className="catalog-categories nav justify-content-center">
       <li className="nav-item">
-        <NavLink className="nav-link" to="#">Все</NavLink>
+        <a className="nav-link">Все</a>
       </li>
-      <li className="nav-item">
-        <NavLink className="nav-link" to="#">Женская обувь</NavLink>
-      </li>
-      <li className="nav-item">
-        <NavLink className="nav-link" to="#">Мужская обувь</NavLink>
-      </li>
-      <li className="nav-item">
-        <NavLink className="nav-link" to="#">Обувь унисекс</NavLink>
-      </li>
-      <li className="nav-item">
-        <NavLink className="nav-link" to="#">Детская обувь</NavLink>
-      </li>
+
+      {categories.map((data) => 
+      <li key={data.id} className="nav-item">
+        <a className="nav-link">{data.title}</a>
+      </li>)}
+
     </ul>
   )
 }
