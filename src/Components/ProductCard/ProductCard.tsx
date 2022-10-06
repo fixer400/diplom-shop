@@ -1,12 +1,14 @@
-import "./ProductCard.css"
+import { Link } from "react-router-dom";
 
 interface cardProps{
   price:number,
   title:string,
-  img:string
+  img:string,
+  id:number,
 }
 
-export default function ProducCard({price,title,img}: cardProps){
+export default function ProductCard({price,title,img,id}: cardProps){
+
   return(
     <div className="col-4">
       <div className="card catalog-item-card">
@@ -14,7 +16,7 @@ export default function ProducCard({price,title,img}: cardProps){
         <div className="card-body">
           <p className="card-text">{title}</p>
           <p className="card-text">{price} руб.</p>
-          <a href="/products/1.html" className="btn btn-outline-primary">Заказать</a>
+          <Link to={"/catalog/"+id} className="btn btn-outline-primary">Заказать</Link>
         </div>
       </div>
     </div>

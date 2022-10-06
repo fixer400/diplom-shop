@@ -12,12 +12,13 @@ export default function CategoryList(){
 
   return(
     <ul className="catalog-categories nav justify-content-center">
+      
       <li className="nav-item">
         <a className="nav-link">Все</a>
       </li>
 
       {categories.map((data) => 
-      <li key={data.id} className="nav-item">
+      <li onClick={() => setChosen(data.id)} key={data.id} className="nav-item">
         <a className="nav-link">{data.title}</a>
       </li>)}
 

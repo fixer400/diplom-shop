@@ -1,9 +1,20 @@
-import "./Header.css"
 import logo from "../../img/header-logo.png"
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import NavList from "../NavList/NavList"
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "../../store/store"
+import { setAccess } from "../../store/reducers/CartAccessReducer"
 
 export default function Header(){
+  const productsCount = useSelector((state: RootState) => state.product.value).length
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  function cartRedirect(){
+    dispatch(setAccess(true))
+    navigate("/cart")
+  }
+
   return(
     <header className="container">
       <div className="row">
@@ -17,8 +28,12 @@ export default function Header(){
               <div>
                 <div className="header-controls-pics">
                   <div data-id="search-expander" className="header-controls-pic header-controls-search"></div>
-                  <div className="header-controls-pic header-controls-cart">
-                    <div className="header-controls-cart-full">1</div>
+                  <div onClick={cartRedirect} className="header-controls-pic header-controls-cart">
+                    {productsCount > 0 && 
+                      <div className="header-controls-cart-full">
+                        {productsCount}
+                      </div>
+                    }
                     <div className="header-controls-cart-menu"></div>
                   </div>
                 </div>

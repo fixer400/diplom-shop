@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
-import rootReducer from './reducers/rootReducer';
+import  CartAccessReducer  from './reducers/CartAccessReducer';
+import ProductReducer from './reducers/ProductReducer';
 
 
 export const store = configureStore({
   reducer: {
-    reducer: rootReducer,
+    product: ProductReducer,
+    access: CartAccessReducer
   },
 })
 

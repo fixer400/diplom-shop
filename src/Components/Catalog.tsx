@@ -1,5 +1,5 @@
 import Preloader from "./Preloader";
-import ProducCard from "./ProductCard/ProductCard";
+import ProductCard from "./ProductCard/ProductCard";
 import CategoryList from "../Components/CategoryList/CategoryList";
 import { useEffect, useState } from "react";
 
@@ -11,10 +11,9 @@ export default function Catalog(props: any){
 
   useEffect(() => {
     setLoading(true)
-     fetch("http://localhost:7070/api/items")
+    fetch("http://localhost:7070/api/items")
     .then(response => response.json())
-    .then(data => setProducts(data))
-    setLoading(false)
+    .then(data => {setProducts(data);setLoading(false)})
   }, [])
 
   function loadMore(){
@@ -46,8 +45,9 @@ export default function Catalog(props: any){
           <CategoryList/>
           <div className="row">
             {products.map((data) => 
-              <ProducCard 
-                key={data.id} 
+              <ProductCard 
+                key={data.id}
+                id={data.id}
                 price={data.price} 
                 title = {data.title} 
                 img = {data.images[0]}

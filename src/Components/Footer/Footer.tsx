@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 export default function Footer(){
 
@@ -9,9 +9,9 @@ export default function Footer(){
           <section>
             <h5>Информация</h5>
             <ul className="nav flex-column">
-              <li className="nav-item"><NavLink to="/about.html" className="nav-link">О магазине</NavLink></li>
-              <li className="nav-item"><NavLink to="/catalog.html" className="nav-link">Каталог</NavLink></li>
-              <li className="nav-item"><NavLink to="/contacts.html" className="nav-link">Контакты</NavLink></li>
+              <li className="nav-item"><Link to="/about" className="nav-link">О магазине</Link></li>
+              <li className="nav-item"><Link to="/catalog" className="nav-link">Каталог</Link></li>
+              <li className="nav-item"><Link to="/contacts" className="nav-link">Контакты</Link></li>
             </ul>
           </section>
         </div>

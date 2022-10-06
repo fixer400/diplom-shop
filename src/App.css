@@ -228,6 +228,7 @@ section {
   border-radius: 8px;
   background-color: #FFFFFF;
   background-repeat: no-repeat;
+  background-image: url(../src/img/footer-sprite.png);
 }
 .footer-pay-systems:not(:first-child) {
   margin-left: 5px;

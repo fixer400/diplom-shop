@@ -26,7 +26,8 @@ export default function TopSales() {
               <h2 className="text-center">Хиты продаж!</h2>
               <div className="row">
                 {topSales.map((data) => 
-                <ProductCard 
+                <ProductCard
+                  id={data.id}
                   key = {data.id} 
                   price = {data.price} 
                   title = {data.title} 
