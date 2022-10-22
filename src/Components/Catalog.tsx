@@ -13,7 +13,7 @@ export default function Catalog(props: any){
     setLoading(true)
     fetch("http://localhost:7070/api/items")
     .then(response => response.json())
-    .then(data => {setProducts(data);setLoading(false)})
+    .then(data => {setProducts(data);setLoading(false);console.log(data)})
   }, [])
 
   function loadMore(){
