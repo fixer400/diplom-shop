@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
+import { Link, NavLink } from "react-router-dom";
 
-export default function CategoryList(){
+export default function CategoryList(props:{chooseCategory:Function}){
   const [categories, setCategories] = useState<any[]>([])
   const [chosenCategoryId, setChosen] = useState("")
 
@@ -14,13 +15,14 @@ export default function CategoryList(){
     <ul className="catalog-categories nav justify-content-center">
       
       <li className="nav-item">
-        <a className="nav-link">Все</a>
+        <NavLink to = "/" className="nav-link">Все</NavLink>
       </li>
 
       {categories.map((data) => 
-      <li onClick={() => setChosen(data.id)} key={data.id} className="nav-item">
-        <a className="nav-link">{data.title}</a>
-      </li>)}
+        <li key={data.id} className="nav-item">
+          <NavLink className="nav-link" to = {data.id}>{data.title}</NavLink>
+        </li>
+      )}
 
     </ul>
   )
