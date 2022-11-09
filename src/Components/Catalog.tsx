@@ -2,11 +2,10 @@ import Preloader from "./Preloader";
 import ProductCard from "./ProductCard/ProductCard";
 import CategoryList from "../Components/CategoryList/CategoryList";
 import { useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
 
 export default function Catalog(props: any){
   const [products, setProducts] = useState <any[]>([])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [offset, setOffset] = useState(6)
   const [loadMoreButtonActive, setLoadMoreButton] = useState(true)
   const [chosenCategory, setChosenCategory] = useState('All')
@@ -15,7 +14,7 @@ export default function Catalog(props: any){
     setLoading(true)
     fetch("http://localhost:7070/api/items")
     .then(response => response.json())
-    .then(data => {setProducts(data);setLoading(false)})
+    .then(data => {setProducts(data);setLoading(false);console.log(data)})
   }, [])
 
   function chooseCategory(id:string){
@@ -82,9 +81,7 @@ export default function Catalog(props: any){
         :
         <>
           <CategoryList chooseCategory = {chooseCategory}/>
-          <Routes>
-            <Route path = {chosenCategory} element = 
-            {<div className="row">
+            <div className="row">
               {products.map((data) => 
                 <ProductCard 
                   key={data.id}
@@ -96,8 +93,6 @@ export default function Catalog(props: any){
                 )
               }
             </div>
-            }/>
-          </Routes>
           {loadMoreButtonActive && 
             <div className="text-center">
               <button onClick={loadMore} className="btn btn-outline-primary">Загрузить ещё</button>

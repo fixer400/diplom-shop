@@ -4,15 +4,27 @@ import NavList from "../NavList/NavList"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../../store/store"
 import { setAccess } from "../../store/reducers/CartAccessReducer"
+import { useState } from "react"
 
 export default function Header(){
   const productsCount = useSelector((state: RootState) => state.product.value).length
+  const [hideSearch, setSearch] = useState(true)
+  const [searchValue, setSearchValue] = useState("")
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
   function cartRedirect(){
     dispatch(setAccess(true))
     navigate("/cart")
+  }
+
+  function activateSearch(){
+    if (hideSearch === false){
+      
+    }
+    else{
+      setSearch(false)
+    }
   }
 
   return(
@@ -27,7 +39,7 @@ export default function Header(){
               <NavList/>
               <div>
                 <div className="header-controls-pics">
-                  <div data-id="search-expander" className="header-controls-pic header-controls-search"></div>
+                  <div data-id="search-expander" onClick = {activateSearch} className="header-controls-pic header-controls-search"></div>
                   <div onClick={cartRedirect} className="header-controls-pic header-controls-cart">
                     {productsCount > 0 && 
                       <div className="header-controls-cart-full">
@@ -37,8 +49,21 @@ export default function Header(){
                     <div className="header-controls-cart-menu"></div>
                   </div>
                 </div>
-                <form data-id="search-form" className="header-controls-search-form form-inline invisible">
-                  <input className="form-control" placeholder="Поиск"/>
+                <form 
+                  data-id="search-form" 
+                  className=
+                    {hideSearch ? 
+                      "header-controls-search-form form-inline invisible"
+                      : 
+                      "header-controls-search-form form-inline"
+                    }
+                  >
+                  <input 
+                    className="form-control" 
+                    placeholder="Поиск"
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    value={searchValue}
+                  />
                 </form>
               </div>
             </div>
