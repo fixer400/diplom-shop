@@ -31,7 +31,7 @@ export const productCart = createSlice({
       }
       localStorage.setItem("products",JSON.stringify(state.value))
     },
-    deleteProductCart: (state, action: PayloadAction<object>) => {
+    deleteFromProductCart: (state, action: PayloadAction<object>) => {
       const data:any = action.payload
       const newState = state.value.filter((e:any) => (e.id !== data.id || e.size !== data.size))
       state.value = newState
@@ -47,6 +47,6 @@ export const productCart = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setProductCart, getSum, deleteProductCart } = productCart.actions
+export const { setProductCart, getSum, deleteFromProductCart } = productCart.actions
 
 export default productCart.reducer

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../../store/store"
 import { setAccess } from "../../store/reducers/CartAccessReducer"
 import { useState } from "react"
+import { setSearchRequest } from "../../store/reducers/CatalogReducer"
 
 export default function Header(){
   const productsCount = useSelector((state: RootState) => state.product.value).length
@@ -18,10 +19,16 @@ export default function Header(){
     navigate("/cart")
   }
 
-  function activateSearch(){
+  function sendSearchRequest(){
+    dispatch(setSearchRequest(searchValue))
+    navigate("/catalog")
+  }
+
+  function activateSearch(e:any){
+    e.preventDefault()
     if (hideSearch === false){
       if(searchValue !== ''){
-        
+        sendSearchRequest()
       }
     }
     else{
@@ -59,6 +66,7 @@ export default function Header(){
                       : 
                       "header-controls-search-form form-inline"
                     }
+                  onSubmit = {activateSearch}
                   >
                   <input 
                     className="form-control" 

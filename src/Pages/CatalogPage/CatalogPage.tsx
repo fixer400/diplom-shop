@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Catalog from "../../Components/Catalog";
-import { setSearchRequest } from "../../store/reducers/CatalogReducer";
+import { selectCatalogSearch, setSearchRequest } from "../../store/reducers/CatalogReducer";
 
 export default function CatalogPage(){
-
-  const [searchValue, setSearchValue] = useState('')
+  const [searchValue, setSearchValue] = useState(useSelector(selectCatalogSearch))
   const dispatch = useDispatch()
 
   function findItem(event:any){
