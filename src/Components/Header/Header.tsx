@@ -8,7 +8,7 @@ import { useState } from "react"
 
 export default function Header(){
   const productsCount = useSelector((state: RootState) => state.product.value).length
-  const [hideSearch, setSearch] = useState(true)
+  const [hideSearch, setHideSearch] = useState(true)
   const [searchValue, setSearchValue] = useState("")
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -20,10 +20,12 @@ export default function Header(){
 
   function activateSearch(){
     if (hideSearch === false){
-      
+      if(searchValue !== ''){
+        
+      }
     }
     else{
-      setSearch(false)
+      setHideSearch(false)
     }
   }
 

@@ -2,75 +2,89 @@ import Preloader from "./Preloader";
 import ProductCard from "./ProductCard/ProductCard";
 import CategoryList from "../Components/CategoryList/CategoryList";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { selectCatalog, selectCatalogSearch, setCatalog } from "../store/reducers/CatalogReducer";
 
 export default function Catalog(props: any){
-  const [products, setProducts] = useState <any[]>([])
+  const fetchUrl = 'http://localhost:7070/api/items'
   const [loading, setLoading] = useState(true)
   const [offset, setOffset] = useState(6)
+  const [currentUrl, setUrl] = useState(fetchUrl)
   const [loadMoreButtonActive, setLoadMoreButton] = useState(true)
   const [chosenCategory, setChosenCategory] = useState('All')
+  const products = useSelector(selectCatalog)
+  const searchRequest = useSelector(selectCatalogSearch)
+  const dispatch = useDispatch()
 
   useEffect(() => {
+    const requestOptions = [
+      {
+        name:'categoryId',
+        option : chosenCategory,
+        defaultOption:'All'
+      },
+      {
+        name:'offset',
+        option : offset,
+        defaultOption:6
+      },
+      {
+        name:'q',
+        option : searchRequest,
+        defaultOption:''
+      }
+    ]
+    let requestString:Array<string> = []
+    requestOptions.forEach((e) => 
+      {
+        if(e.option !== e.defaultOption){
+          requestString.push(e.name+'='+e.option)
+        }
+      }
+    )
+    fetchProduct(fetchUrl+'?'+requestString.join('&'))
+    setUrl(fetchUrl+'?'+requestString.join('&'))
+  },[chosenCategory, searchRequest])
+
+  function setProducts(data:Array<object>){
+    dispatch(setCatalog(data))
+  }
+
+  function fetchProduct(url:string){
     setLoading(true)
-    fetch("http://localhost:7070/api/items")
-    .then(response => response.json())
-    .then(data => {setProducts(data);setLoading(false);console.log(data)})
-  }, [])
+    if(url.indexOf('offset') !== -1){
+      fetch(url)
+      .then(response => response.json())
+      .then(data => 
+        {setProducts([...products,...data]);
+          if(data.length < 6){
+            setLoadMoreButton(false)
+          }
+          else{
+            setOffset(offset + 6)
+          }
+          setLoading(false);
+        }
+      )
+    }
+    else{
+      fetch(url)
+      .then(response => response.json())
+      .then(data => {setProducts(data);setLoading(false);if(data.length<6){setLoadMoreButton(false)}})
+    }
+  }
 
   function chooseCategory(id:string){
     setChosenCategory(id)
-    setOffset(6)
     setLoadMoreButton(true)
-    if (id === "All"){
-      setLoading(true)
-      fetch("http://localhost:7070/api/items")
-      .then(response => response.json())
-      .then(data => {setProducts(data);setLoading(false)})
-    }
-    else{
-      setLoading(true)
-      fetch("http://localhost:7070/api/items?categoryId="+id)
-      .then(response => response.json())
-      .then(data => {setProducts(data);setLoading(false)})
-    }
+    setOffset(6)
   }
 
   function loadMore(){
-    if (chosenCategory !== "All"){
-      setLoading(true)
-      fetch("http://localhost:7070/api/items?categoryId="+chosenCategory+"&offset="+offset)
-      .then(response => response.json())
-      .then(data => 
-        {setProducts([...products,...data]);
-          console.log(data)
-          if(data.length < 6){
-            setLoadMoreButton(false)
-          }
-          else{
-            setOffset(offset + 6)
-          }
-          setLoading(false);
-        }
-      )
-    }
-    else{
-      setLoading(true)
-      fetch("http://localhost:7070/api/items?offset="+offset)
-      .then(response => response.json())
-      .then(data => 
-        {setProducts([...products,...data]);
-          if(data.length < 6){
-            setLoadMoreButton(false)
-          }
-          else{
-            setOffset(offset + 6)
-          }
-          setLoading(false);
-        }
-      )
-    }
+    const dataUrl = currentUrl
+    fetchProduct(dataUrl +"&offset="+offset)
   }
-
+  
   return(
     <section className="catalog">
       <h2 className="text-center">Каталог</h2>
@@ -80,9 +94,9 @@ export default function Catalog(props: any){
         <Preloader/>
         :
         <>
-          <CategoryList chooseCategory = {chooseCategory}/>
+          <CategoryList chosenCategory = {chosenCategory} chooseCategory = {chooseCategory}/>
             <div className="row">
-              {products.map((data) => 
+              {products.map((data:any) => 
                 <ProductCard 
                   key={data.id}
                   id={data.id}
