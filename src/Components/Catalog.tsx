@@ -17,6 +17,7 @@ export default function Catalog(props: any){
   const dispatch = useDispatch()
 
   useEffect(() => {
+    let url = new URL(fetchUrl)
     const requestOptions = [
       {
         name:'categoryId',
@@ -34,16 +35,15 @@ export default function Catalog(props: any){
         defaultOption:''
       }
     ]
-    let requestString:Array<string> = []
     requestOptions.forEach((e) => 
       {
         if(e.option !== e.defaultOption){
-          requestString.push(e.name+'='+e.option)
+          url.searchParams.set(e.name, e.option.toString())
         }
       }
     )
-    fetchProduct(fetchUrl+'?'+requestString.join('&'))
-    setUrl(fetchUrl+'?'+requestString.join('&'))
+    fetchProduct(url.toString())
+    setUrl(url.toString())
   },[chosenCategory, searchRequest])
 
   function setProducts(data:Array<object>){

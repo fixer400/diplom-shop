@@ -1,11 +1,11 @@
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
-import { deleteFromProductCart, getSum } from "../store/reducers/ProductReducer"
+import { deleteFromProductCart, getSum, selectProductCart } from "../store/reducers/ProductReducer"
 
 export default function CartElement(props:any){
   const dispatch = useDispatch()
   const data = props.data
-
+  console.log()
 
   function deleteThis(){
     dispatch(deleteFromProductCart(data))

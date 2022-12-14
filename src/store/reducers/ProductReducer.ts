@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
+import { RootState } from '../store'
 
 export interface ProductsState {
   value: Array<object>
@@ -47,6 +48,7 @@ export const productCart = createSlice({
 })
 
 // Action creators are generated for each case reducer function
+export const selectProductCart = (state:RootState) => state.product.value
 export const { setProductCart, getSum, deleteFromProductCart } = productCart.actions
 
 export default productCart.reducer
