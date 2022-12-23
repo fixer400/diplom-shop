@@ -4,12 +4,10 @@ import { RootState } from '../store'
 
 export interface ProductsState {
   value: Array<object>
-  sum:number
 }
 
 const initialState: ProductsState = {
   value: localStorage.getItem("products")?(JSON.parse(localStorage.getItem("products") || '')):[] ,
-  sum:0,
 }
 
 export const productCart = createSlice({
@@ -38,17 +36,18 @@ export const productCart = createSlice({
       state.value = newState
       localStorage.setItem("products",JSON.stringify(state.value))
     },
-    getSum: (state) => {
-      state.sum = 0
-      state.value.forEach((e:any) => {
-        state.sum += e.price * e.amount
-      })
-    }
   },
 })
 
 // Action creators are generated for each case reducer function
 export const selectProductCart = (state:RootState) => state.product.value
-export const { setProductCart, getSum, deleteFromProductCart } = productCart.actions
+export const sumOfProducts = (state:RootState) => {
+  let sum = 0
+  state.product.value.forEach((e:any) => {
+    sum += e.price * e.amount
+  })
+  return(sum)
+}
+export const { setProductCart, deleteFromProductCart } = productCart.actions
 
 export default productCart.reducer

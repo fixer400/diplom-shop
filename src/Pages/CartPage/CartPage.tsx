@@ -4,18 +4,17 @@ import { useNavigate } from "react-router-dom"
 import CartElement from "../../Components/CartElement"
 import OrderSection from "../../Components/OrderSection"
 import { setAccess } from "../../store/reducers/CartAccessReducer"
-import { getSum } from "../../store/reducers/ProductReducer"
+import { sumOfProducts } from "../../store/reducers/ProductReducer"
 import { RootState } from "../../store/store"
 
 export default function CartPage(){
   const navigate = useNavigate()
   const access = useSelector((state: RootState) => state.access.value)
   const products = useSelector((state: RootState) => state.product.value)
-  const sum = useSelector((state:RootState) => state.product.sum)
+  const sum = useSelector(sumOfProducts)
   const dispatch = useDispatch()
   
   useEffect(() => {
-    dispatch(getSum())
     if (access === false){
       navigate('/')
     }

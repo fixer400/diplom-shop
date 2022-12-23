@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
-import { deleteFromProductCart, getSum, selectProductCart } from "../store/reducers/ProductReducer"
+import { deleteFromProductCart, selectProductCart } from "../store/reducers/ProductReducer"
 
 export default function CartElement(props:any){
   const dispatch = useDispatch()
@@ -9,7 +9,6 @@ export default function CartElement(props:any){
 
   function deleteThis(){
     dispatch(deleteFromProductCart(data))
-    dispatch(getSum())
   }
 
   return(
