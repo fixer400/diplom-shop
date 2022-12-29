@@ -1,25 +1,25 @@
-import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface CartAccessState {
-  value: boolean
+  value: boolean;
 }
 
 const initialState: CartAccessState = {
   value: false,
-}
+};
 
 export const CartAccess = createSlice({
-  name: 'cartAccess',
+  name: "cartAccess",
   initialState,
   reducers: {
     setAccess: (state, action: PayloadAction<boolean>) => {
-      state.value = action.payload
+      state.value = action.payload;
     },
   },
-})
+});
 
 // Action creators are generated for each case reducer function
-export const { setAccess } = CartAccess.actions
+export const { setAccess } = CartAccess.actions;
 
-export default CartAccess.reducer
+export default CartAccess.reducer;
