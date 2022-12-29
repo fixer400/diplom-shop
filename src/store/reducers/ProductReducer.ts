@@ -7,7 +7,7 @@ export interface ProductsState {
 }
 
 const initialState: ProductsState = {
-  value: localStorage.getItem("products")?(JSON.parse(localStorage.getItem("products") || '')):[] ,
+  value:[]
 }
 
 export const productCart = createSlice({
@@ -28,13 +28,11 @@ export const productCart = createSlice({
       else{
         state.value.push(action.payload)
       }
-      localStorage.setItem("products",JSON.stringify(state.value))
     },
     deleteFromProductCart: (state, action: PayloadAction<object>) => {
       const data:any = action.payload
       const newState = state.value.filter((e:any) => (e.id !== data.id || e.size !== data.size))
       state.value = newState
-      localStorage.setItem("products",JSON.stringify(state.value))
     },
   },
 })
